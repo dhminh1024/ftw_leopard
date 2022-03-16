@@ -1,0 +1,28 @@
+.counter {
+  text-align: center;
+}
+
+.counter h1 {
+  font-family: roboto condensed, sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #555;
+  margin: 0;
+}
+
+.counter h2 {
+  font-family: sans-serif;
+  font-weight: 700;
+  font-size: 54px;
+  margin-top: 15px;
+}
+
+#cases {
+  color: #aaa;
+}
+#deaths {
+  color: #696969;
+}
+#recovered {
+  color: #8aca2b;
+}
