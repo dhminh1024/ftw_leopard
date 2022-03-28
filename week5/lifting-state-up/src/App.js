@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import AddProduct from "./components/AddProduct";
 import Cart from "./components/Cart";
 import ProductList from "./components/ProductList";
+import useCart from "./hooks/useCart";
 
 const productsData = [
   { id: 0, name: "Honda CRV", price: 1 },
@@ -12,57 +14,21 @@ const productsData = [
 
 function App() {
   const [products, setProducts] = useState(productsData);
-  const [cartProducts, setCartProducts] = useState([
-    // { id: 0, name: "Honda CRV", price: 1, quantity: 4 },
-  ]);
+  const [cartProducts, handleAddToCart, increaseQuant, decreaseQuant] =
+    useCart();
 
-  const handleAddToCart = (product) => {
-    const found = cartProducts.find(
-      (cartProduct) => cartProduct.id === product.id
-    );
-    if (found) {
-      setCartProducts(
-        cartProducts.map((cartProduct) => {
-          if (cartProduct.id === product.id) {
-            return { ...cartProduct, quantity: cartProduct.quantity + 1 };
-          }
-          return cartProduct;
-        })
-      );
-    } else {
-      setCartProducts([...cartProducts, { ...product, quantity: 1 }]);
-    }
-  };
-
-  const increaseQuant = (product) => {
-    setCartProducts(
-      cartProducts.map((cartProduct) => {
-        if (cartProduct.id === product.id) {
-          return { ...cartProduct, quantity: cartProduct.quantity + 1 };
-        }
-        return cartProduct;
-      })
-    );
-  };
-
-  const decreaseQuant = (product) => {
-    setCartProducts(
-      cartProducts
-        .map((cartProduct) => {
-          if (cartProduct.id === product.id) {
-            return { ...cartProduct, quantity: cartProduct.quantity - 1 };
-          }
-          return cartProduct;
-        })
-        .filter((cartProduct) => cartProduct.quantity > 0)
-    );
+  const addProduct = (name) => {
+    setProducts([{ id: products.length, name, price: 1 }, ...products]);
   };
 
   return (
     <>
       <h1>Leopard Store</h1>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <ProductList products={products} handleAddToCart={handleAddToCart} />
+        <div>
+          <AddProduct addProduct={addProduct} />
+          <ProductList products={products} handleAddToCart={handleAddToCart} />
+        </div>
         <Cart
           cartProducts={cartProducts}
           increaseQuant={increaseQuant}
