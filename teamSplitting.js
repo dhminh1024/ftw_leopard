@@ -42,4 +42,4 @@ const splitStudents = (nGroups) => {
   return result;
 };
 
-console.log(splitStudents(8));
+console.log(splitStudents(3));
