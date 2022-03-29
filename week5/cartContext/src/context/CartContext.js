@@ -32,12 +32,14 @@ const cartReducer = (state, action) => {
 
     case "DEC_QUANT":
       product = action.payload;
-      return state.map((cartProduct) => {
-        if (cartProduct.id === product.id) {
-          return { ...cartProduct, quantity: cartProduct.quantity - 1 };
-        }
-        return cartProduct;
-      });
+      return state
+        .map((cartProduct) => {
+          if (cartProduct.id === product.id) {
+            return { ...cartProduct, quantity: cartProduct.quantity - 1 };
+          }
+          return cartProduct;
+        })
+        .filter((product) => product.quantity > 0);
     case "CLEAR":
       return [];
 
