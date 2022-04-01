@@ -3,13 +3,17 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
-import FormProvider from "./components/form/FormProvider";
-import FTextField from "./components/form/FTextField";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import FMultiCheckbox from "./components/form/FMultiCheckbox";
-import FSwitch from "./components/form/FSwitch";
-import { FSelect } from "./components/form";
+import {
+  FMultiCheckbox,
+  FSelect,
+  FRadioGroup,
+  FCheckbox,
+  FSwitch,
+  FTextField,
+  FormProvider,
+} from "./components/form";
 
 const schema = yup.object({
   username: yup.string().required(),
@@ -24,6 +28,8 @@ function App() {
     languages: [],
     isFA: false,
     city: "",
+    gender: "Female",
+    remember: true,
   };
   const [showPassword, setShowPassword] = useState(false);
   const methods = useForm({ resolver: yupResolver(schema), defaultValues });
@@ -35,6 +41,8 @@ function App() {
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
+          <FCheckbox name="remember" label="Remember me" />
+          <FRadioGroup name="gender" options={["Male", "Female", "Other"]} />
           <FSelect name="city" label="City">
             {[
               { code: "HCMC", label: "Ho Chi Minh City" },
