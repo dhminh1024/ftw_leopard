@@ -17,8 +17,8 @@ const students = [
   "Nguyen Minh Hai",
   "Nguyen The Duy",
   "Nguyen Truong Son",
-  "Tran Don Hau",
-  "Quach Trung Tin",
+  // "Tran Don Hau",
+  // "Quach Trung Tin",
   "Pham Thien An",
   "Le Thanh Gia Phuc",
   "Le Thanh Phuc",
@@ -42,4 +42,4 @@ const splitStudents = (nGroups) => {
   return result;
 };
 
-console.log(splitStudents(3));
+console.log(splitStudents(5));
