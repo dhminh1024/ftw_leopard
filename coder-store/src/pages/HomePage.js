@@ -9,6 +9,7 @@ import ProductSearch from "../components/ProductSearch";
 import ProductSort from "../components/ProductSort";
 import { useForm } from "react-hook-form";
 import { FormProvider } from "../components/form";
+import orderBy from "lodash/orderBy";
 
 const defaultValues = {
   gender: [],
@@ -20,19 +21,15 @@ const defaultValues = {
 
 function HomePage() {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const methods = useForm({ defaultValues });
   const { watch, reset } = methods;
+  // derived state
   const filters = watch();
-
-  useEffect(() => {
-    if (products.length) {
-      setFilteredProducts(applyFilter(products, filters));
-    }
-  }, [products, filters]);
+  console.log(filters);
+  const filteredProducts = applyFilter(products, filters);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -57,16 +54,16 @@ function HomePage() {
         </FormProvider>
       </Stack>
       <Stack sx={{ flexGrow: 1 }}>
-        <Stack
-          spacing={2}
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="space-between"
-        >
-          <FormProvider methods={methods}>
+        <FormProvider methods={methods}>
+          <Stack
+            spacing={2}
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent="space-between"
+          >
             <ProductSearch />
             <ProductSort />
-          </FormProvider>
-        </Stack>
+          </Stack>
+        </FormProvider>
         <Box sx={{ position: "relative", height: 1 }}>
           {loading ? (
             <LoadingScreen />
@@ -112,6 +109,25 @@ function applyFilter(products, filters) {
         return product.price > 75;
       }
     });
+  }
+
+  if (filters.searchQuery) {
+    filteredProducts = filteredProducts.filter((product) =>
+      product.name.toLowerCase().includes(filters.searchQuery.toLowerCase())
+    );
+  }
+
+  if (filters.sortBy === "featured") {
+    filteredProducts = orderBy(filteredProducts, ["sold"], ["desc"]);
+  }
+  if (filters.sortBy === "newest") {
+    filteredProducts = orderBy(filteredProducts, ["createdAt"], ["desc"]);
+  }
+  if (filters.sortBy === "priceDesc") {
+    filteredProducts = orderBy(filteredProducts, ["price"], ["desc"]);
+  }
+  if (filters.sortBy === "priceAsc") {
+    filteredProducts = orderBy(filteredProducts, ["price"], ["asc"]);
   }
 
   return filteredProducts;

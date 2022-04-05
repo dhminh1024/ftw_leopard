@@ -1,9 +1,10 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 import React from "react";
 import { FMultiCheckbox, FRadioGroup } from "./form";
 
 const FILTER_GENDER_OPTIONS = ["Men", "Women", "Kids"];
-const FILTER_CATEGORY_OPTIONS = ["All", "Shoes", "Apparel", "Accessories"];
+const FILTER_CATEGORY_OPTIONS = ["All", "Shose", "Apparel", "Accessories"];
 const FILTER_PRICE_OPTIONS = [
   { value: "below", label: "Below $25" },
   { value: "between", label: "Between $25 - $75" },
@@ -12,7 +13,7 @@ const FILTER_PRICE_OPTIONS = [
 
 function ProductFilter({ resetFilter }) {
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} sx={{ p: 3, width: 150 }}>
       <Stack>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
           Gender
@@ -39,7 +40,13 @@ function ProductFilter({ resetFilter }) {
       </Stack>
 
       <Box>
-        <Button onClick={resetFilter}>Clear All</Button>
+        <Button
+          variant="outlined"
+          onClick={() => resetFilter()}
+          startIcon={<ClearAllIcon />}
+        >
+          Clear All
+        </Button>
       </Box>
     </Stack>
   );

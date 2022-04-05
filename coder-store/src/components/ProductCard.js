@@ -5,10 +5,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Stack } from "@mui/material";
 import { fCurrency } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 function ProductCard({ product }) {
+  const navigate = useNavigate();
   return (
-    <Card>
+    <Card onClick={() => navigate(`/products/${product.id}`)}>
       <CardActionArea>
         <CardMedia
           component="img"
