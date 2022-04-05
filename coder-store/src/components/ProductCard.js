@@ -3,15 +3,17 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Stack } from "@mui/material";
+import { CardActionArea, Stack, Button, CardActions } from "@mui/material";
 import { fCurrency } from "../utils";
 import { useNavigate } from "react-router-dom";
+import useCartContext from "../hooks/useCartContext";
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
+  const { dispatch } = useCartContext();
   return (
-    <Card onClick={() => navigate(`/products/${product.id}`)}>
-      <CardActionArea>
+    <Card>
+      <CardActionArea onClick={() => navigate(`/products/${product.id}`)}>
         <CardMedia
           component="img"
           height="140"
@@ -41,6 +43,14 @@ function ProductCard({ product }) {
           </Stack>
         </CardContent>
       </CardActionArea>
+      <CardActions>
+        <Button
+          onClick={() => dispatch({ type: "ADD", payload: product })}
+          variant="contained"
+        >
+          Add to Cart
+        </Button>
+      </CardActions>
     </Card>
   );
 }

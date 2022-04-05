@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Breadcrumbs,
+  Button,
   Card,
   Container,
   Divider,
@@ -136,6 +137,10 @@ function DetailPage() {
                             rehypePlugins={[rehypeRaw]}
                             children={product.description}
                           />
+                        </Box>
+                        <Divider sx={{ borderStyle: "dashed" }} />
+                        <Box sx={{ my: 3 }}>
+                          <Button variant="contained">Add to Cart</Button>
                         </Box>
                       </Grid>
                     </Grid>
