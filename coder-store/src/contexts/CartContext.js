@@ -1,49 +1,74 @@
 import React, { useReducer, createContext } from "react";
+import apiService from "../app/apiService";
 
 export const CartContext = createContext();
 
-const initialState = [];
+const initialState = {
+  cart: [],
+  delivery: {
+    address: "",
+    city: "",
+    country: "",
+  },
+};
 
 const cartReducer = (state, action) => {
   let product;
   switch (action.type) {
     case "ADD":
       product = action.payload;
-      const found = state.find((cartProduct) => cartProduct.id === product.id);
+      const found = state.cart.find(
+        (cartProduct) => cartProduct.id === product.id
+      );
       if (found) {
-        return state.map((cartProduct) => {
-          if (cartProduct.id === product.id) {
-            return { ...cartProduct, quantity: cartProduct.quantity + 1 };
-          }
-          return cartProduct;
-        });
+        return {
+          ...state,
+          cart: state.cart.map((cartProduct) => {
+            if (cartProduct.id === product.id) {
+              return { ...cartProduct, quantity: cartProduct.quantity + 1 };
+            }
+            return cartProduct;
+          }),
+        };
       } else {
-        return [...state, { ...product, quantity: 1 }];
+        return { ...state, cart: [...state.cart, { ...product, quantity: 1 }] };
       }
 
     case "INC_QUANT":
-      return state.map((cartProduct) => {
-        if (cartProduct.id === action.payload) {
-          return { ...cartProduct, quantity: cartProduct.quantity + 1 };
-        }
-        return cartProduct;
-      });
-
-    case "DEC_QUANT":
-      return state
-        .map((cartProduct) => {
+      return {
+        ...state,
+        cart: state.cart.map((cartProduct) => {
           if (cartProduct.id === action.payload) {
-            return { ...cartProduct, quantity: cartProduct.quantity - 1 };
+            return { ...cartProduct, quantity: cartProduct.quantity + 1 };
           }
           return cartProduct;
-        })
-        .filter((product) => product.quantity > 0);
+        }),
+      };
+
+    case "DEC_QUANT":
+      return {
+        ...state,
+        cart: state.cart
+          .map((cartProduct) => {
+            if (cartProduct.id === action.payload) {
+              return { ...cartProduct, quantity: cartProduct.quantity - 1 };
+            }
+            return cartProduct;
+          })
+          .filter((product) => product.quantity > 0),
+      };
 
     case "DEL_PRODUCT":
-      return state.filter((product) => product.id !== action.payload);
+      return {
+        ...state,
+        cart: state.cart.filter((product) => product.id !== action.payload),
+      };
 
     case "CLEAR":
-      return [];
+      return { ...state, cart: [] };
+
+    case "SET_DELIVERY":
+      return { ...state, delivery: action.payload };
 
     default:
       return state;
@@ -51,9 +76,26 @@ const cartReducer = (state, action) => {
 };
 
 function CartContextProvider({ children }) {
-  const [cartProducts, dispatch] = useReducer(cartReducer, initialState);
+  const [state, dispatch] = useReducer(cartReducer, initialState);
+
+  const checkout = async (order, cb) => {
+    try {
+      const response = await apiService.post("/orders", order);
+    } catch (error) {
+      console.log(error);
+    }
+    cb();
+  };
+
   return (
-    <CartContext.Provider value={{ cartProducts, dispatch }}>
+    <CartContext.Provider
+      value={{
+        cartProducts: state.cart,
+        dispatch,
+        delivery: state.delivery,
+        checkout,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
