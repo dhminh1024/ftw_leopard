@@ -19,12 +19,14 @@ import LoadingScreen from "../components/LoadingScreen";
 import { fCurrency } from "../utils";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import useCartContext from "../hooks/useCartContext";
 
 function DetailPage() {
   const params = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { dispatch } = useCartContext();
 
   useEffect(() => {
     if (params.id) {
@@ -140,7 +142,14 @@ function DetailPage() {
                         </Box>
                         <Divider sx={{ borderStyle: "dashed" }} />
                         <Box sx={{ my: 3 }}>
-                          <Button variant="contained">Add to Cart</Button>
+                          <Button
+                            variant="contained"
+                            onClick={() =>
+                              dispatch({ type: "ADD", payload: product })
+                            }
+                          >
+                            Add to Cart
+                          </Button>
                         </Box>
                       </Grid>
                     </Grid>

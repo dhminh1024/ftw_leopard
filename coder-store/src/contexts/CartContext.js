@@ -22,24 +22,26 @@ const cartReducer = (state, action) => {
       }
 
     case "INC_QUANT":
-      product = action.payload;
       return state.map((cartProduct) => {
-        if (cartProduct.id === product.id) {
+        if (cartProduct.id === action.payload) {
           return { ...cartProduct, quantity: cartProduct.quantity + 1 };
         }
         return cartProduct;
       });
 
     case "DEC_QUANT":
-      product = action.payload;
       return state
         .map((cartProduct) => {
-          if (cartProduct.id === product.id) {
+          if (cartProduct.id === action.payload) {
             return { ...cartProduct, quantity: cartProduct.quantity - 1 };
           }
           return cartProduct;
         })
         .filter((product) => product.quantity > 0);
+
+    case "DEL_PRODUCT":
+      return state.filter((product) => product.id !== action.payload);
+
     case "CLEAR":
       return [];
 

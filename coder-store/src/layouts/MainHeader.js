@@ -26,7 +26,7 @@ function MainHeader() {
             <Logo />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            CoderStore
           </Typography>
           {isAuthenticated ? (
             <Typography>{user?.username}</Typography>
