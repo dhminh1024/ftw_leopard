@@ -19,7 +19,9 @@ const defaultValues = {
 
 function CheckoutDelivery({ setActiveStep }) {
   const methods = useForm({
-    defaultValues,
+    defaultValues: window.localStorage.getItem("defaultAddress")
+      ? JSON.parse(window.localStorage.getItem("defaultAddress"))
+      : defaultValues,
     resolver: yupResolver(DeliverySchema),
   });
   const { handleSubmit } = methods;
@@ -27,6 +29,7 @@ function CheckoutDelivery({ setActiveStep }) {
 
   const onSubmit = (data) => {
     setActiveStep((step) => step + 1);
+    window.localStorage.setItem("defaultAddress", JSON.stringify(data));
     dispatch({ type: "SET_DELIVERY", payload: data });
   };
 

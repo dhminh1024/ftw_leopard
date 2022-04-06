@@ -14,22 +14,25 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 import useCartContext from "../hooks/useCartContext";
 import { fCurrency } from "../utils";
 
 function CheckoutSummary() {
-  const { cartProducts, delivery, checkout } = useCartContext();
+  const { cartProducts, delivery, checkout, dispatch } = useCartContext();
   const totalPrice = cartProducts.reduce(
     (acc, product) => (acc += product.price * product.quantity),
     0
   );
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleCheckout = () => {
-    const order = { cartProducts, delivery, totalPrice };
+    const order = { cartProducts, delivery, totalPrice, user };
     checkout(order, () => {
       navigate("/checkout/completed", { replace: true });
     });
+    dispatch({ type: "CLEAR" });
   };
 
   return (

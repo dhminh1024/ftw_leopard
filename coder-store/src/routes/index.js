@@ -8,6 +8,7 @@ import DetailPage from "../pages/DetailPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import OrderPage from "../pages/OrderPage";
 import AuthRequire from "./AuthRequire";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
         <Route path="/products/:id" element={<DetailPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/checkout/completed" element={<CheckoutCompletedPage />} />
+        <Route path="/orders" element={<OrderPage />} />
       </Route>
       <Route element={<BlankLayout />}>
         <Route path="/login" element={<LoginPage />} />
