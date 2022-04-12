@@ -1,0 +1,14 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "text": "lau nha",
+      "completed": false
+    },
+    {
+      "id": 2,
+      "text": "hoc bai",
+      "completed": false
+    }
+  ]
+}

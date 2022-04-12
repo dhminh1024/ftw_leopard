@@ -6,14 +6,11 @@ const initialState = {
 };
 
 const counterReducer = (state = initialState, action) => {
-  let newState;
   switch (action.type) {
     case INCREMENT:
-      newState = { count: state.count + action.payload };
-      return newState;
+      return { count: state.count + action.payload };
     case DECREMENT:
-      newState = { count: state.count - action.payload };
-      return newState;
+      return { count: state.count - action.payload };
     default:
       return state;
   }
