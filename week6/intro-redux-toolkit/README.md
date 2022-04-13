@@ -7,3 +7,5 @@
 - Open new terminal
 
 `npm start`
+
+Assignment: implement getTodos()
