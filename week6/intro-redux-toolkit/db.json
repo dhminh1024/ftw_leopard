@@ -3,7 +3,27 @@
     {
       "id": 1,
       "text": "lau nha",
-      "completed": false
+      "completed": true
+    },
+    {
+      "text": "hoc bai",
+      "completed": false,
+      "id": 2
+    },
+    {
+      "text": "hoc react",
+      "completed": false,
+      "id": 3
+    },
+    {
+      "text": "hoc node",
+      "completed": false,
+      "id": 4
+    },
+    {
+      "text": "a",
+      "completed": false,
+      "id": 5
     }
   ]
 }

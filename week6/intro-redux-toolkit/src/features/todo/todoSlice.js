@@ -2,7 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import apiService from "../../app/apiService";
 
 const initialState = {
-  todos: [],
+  todos: [
+    // 1, 2, 3, 4
+  ],
+  todosById: {
+    // "1": { id: 1, text: "launha", completed: false},
+    // "2": { id: 2, text: "launha", completed: false},
+    // "3": { id: 3, text: "launha", completed: false},
+    // "4": { id: 4, text: "launha", completed: false}
+  },
   filter: "SHOW_ALL",
   isLoading: false,
   error: null,
@@ -24,16 +32,31 @@ export const todoSlice = createSlice({
       state.error = null;
       const { id, text } = action.payload;
       const newTodo = { id, text, completed: false };
-      state.todos.push(newTodo);
+      state.todos.unshift(newTodo.id);
+      if ((state.todos.length + 1) % 2 === 0) state.todos.pop();
+      state.todosById[newTodo.id] = newTodo;
     },
+
     toggleTodoSuccess: (state, action) => {
       state.isLoading = false;
       state.error = null;
-      state.todos = state.todos.map((todo) => {
-        if (todo.id !== action.payload.id) return todo;
-        return { ...todo, completed: !todo.completed };
-      });
+      // state.todos = state.todos.map((todo) => {
+      //   if (todo.id !== action.payload.id) return todo;
+      //   return { ...todo, completed: !todo.completed };
+      // });
+      console.log(action.payload.id);
+      state.todosById[action.payload.id].completed =
+        !state.todosById[action.payload.id].completed;
     },
+
+    getTodosSuccess: (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      const { todos } = action.payload;
+      state.todos = [...state.todos, ...todos.map((todo) => todo.id)];
+      todos.forEach((todo) => (state.todosById[todo.id] = todo));
+    },
+
     setFilter: (state, action) => {
       state.isLoading = false;
       state.error = null;
@@ -59,17 +82,36 @@ export const addTodo = (text) => async (dispatch) => {
   }
 };
 
-const selectTodos = (state) => state.todo.todos;
-
 export const toggleTodo = (id) => async (dispatch, getState) => {
-  let todo = selectTodos(getState()).find((todo) => todo.id === id);
+  // let todo = getState().todo.todos.find((todo) => todo.id === id);
+  let todo = getState().todo.todosById[id];
   todo = { ...todo, completed: !todo.completed };
 
   dispatch(todoSlice.actions.startLoading());
   try {
     const response = await apiService.put(`/todos/${id}`, todo);
+    console.log(response.data);
     dispatch(todoSlice.actions.toggleTodoSuccess(response.data));
   } catch (error) {
     dispatch(todoSlice.actions.hasError(error.message));
   }
 };
+
+export const getTodos =
+  (page, limit = 2) =>
+  async (dispatch) => {
+    dispatch(todoSlice.actions.startLoading());
+    try {
+      const params = {
+        _page: page,
+        _limit: limit,
+        _sort: "id",
+        _order: "desc",
+      };
+      const response = await apiService.get(`/todos`, { params });
+
+      dispatch(todoSlice.actions.getTodosSuccess({ todos: response.data }));
+    } catch (error) {
+      dispatch(todoSlice.actions.hasError(error.message));
+    }
+  };
