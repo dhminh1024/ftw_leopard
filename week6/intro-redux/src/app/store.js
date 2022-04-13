@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
   multiCounter: multiCounterReducer,
   todo: todoReducer,
 });
+
 const store = createStore(
   rootReducer,
   initialState,
