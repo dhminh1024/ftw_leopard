@@ -33,7 +33,8 @@ function TodoList() {
 
   return (
     <>
-      <ul>
+      <button onClick={() => setPage((page) => page + 1)}>Load more</button>
+      <ul style={{ border: "1px solid black" }}>
         {filteredTodos.length > 0 ? (
           <>
             {filteredTodos.map((todo) => (
@@ -52,12 +53,6 @@ function TodoList() {
           <div>Nothing to do</div>
         )}
       </ul>
-      <button
-        style={{ marginBottom: "5rem" }}
-        onClick={() => setPage((page) => page + 1)}
-      >
-        Load more
-      </button>
     </>
   );
 }

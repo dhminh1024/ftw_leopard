@@ -12,7 +12,7 @@ function TodoAdd() {
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <button onClick={() => dispatch(addTodo(text))}>Add</button>
+      <button onClick={() => dispatch(addTodo(text))}>Comment</button>
     </div>
   );
 }

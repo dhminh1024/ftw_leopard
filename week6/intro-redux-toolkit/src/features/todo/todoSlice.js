@@ -44,7 +44,7 @@ export const todoSlice = createSlice({
       //   if (todo.id !== action.payload.id) return todo;
       //   return { ...todo, completed: !todo.completed };
       // });
-      console.log(action.payload.id);
+
       state.todosById[action.payload.id].completed =
         !state.todosById[action.payload.id].completed;
     },
@@ -53,7 +53,18 @@ export const todoSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       const { todos } = action.payload;
-      state.todos = [...state.todos, ...todos.map((todo) => todo.id)];
+
+      // todos:
+      // {text: 'a', completed: false, id: 5}
+      // {text: 'hoc node', completed: false, id: 4}
+
+      // state.todos [4, 5]
+      // state.todosById { 4: , 5:}
+
+      // state.todos = [...state.todos, ...todos.map((todo) => todo.id)];
+      todos.map((todo) =>
+        !state.todos.includes(todo.id) ? state.todos.push(todo.id) : ""
+      );
       todos.forEach((todo) => (state.todosById[todo.id] = todo));
     },
 

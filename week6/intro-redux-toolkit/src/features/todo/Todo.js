@@ -6,9 +6,9 @@ import TodoList from "./TodoList";
 function Todo() {
   return (
     <>
-      <TodoAdd />
       <TodoList />
-      <TodoFilterBtns />
+      <TodoAdd />
+      {/* <TodoFilterBtns /> */}
     </>
   );
 }
