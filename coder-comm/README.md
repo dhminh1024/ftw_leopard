@@ -6,7 +6,7 @@ Backend URL: https://codercomm-api-dot-cs-platform-306304.et.r.appspot.com/api
 
 ### Authentication
 
-- [ ] User have to log in with email and password
+- [x] User have to log in with email and password
 
   - POST `/auth/login`
   - Body: { email, password}
@@ -54,13 +54,13 @@ Backend URL: https://codercomm-api-dot-cs-platform-306304.et.r.appspot.com/api
   }
   ```
 
-- [ ] New User can register for a new account with name, email, password.
+- [x] New User can register for a new account with name, email, password.
 
   - POST `/users/`
   - Body: { name, email, password }
   - Response: { user, accessToken }
 
-- [ ] User stay logged in with refreshing page.
+- [x] User stay logged in with refreshing page.
 
   - accessToken should be saved in localStorage
   - Every time user refresh the browser:
@@ -83,7 +83,7 @@ Backend URL: https://codercomm-api-dot-cs-platform-306304.et.r.appspot.com/api
 
 - [ ] After logged in, User can see a homepage with his/her posts and his/her friends post. New post should be on the top. User can click Load more to see more post. If there is no more post, Load More button should be disabled.
 
-  - GET `/posts?page=1&limit=5`
+  - GET `/posts/user/:id?page=1&limit=5`
   - Response: { posts, totalPages, count }
   - Posts is ordered by createdAt (new post is on top)
 

@@ -7,6 +7,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import AuthRequire from "./AuthRequire";
+import UserProfilePage from "../pages/UserProfilePage";
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
         }
       >
         <Route index element={<HomePage />} />
+        <Route path="user/:userId" element={<UserProfilePage />} />
       </Route>
 
       <Route element={<BlankLayout />}>

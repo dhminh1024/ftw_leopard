@@ -1,9 +1,13 @@
 import React from "react";
+import Profile from "../features/user/Profile";
+import useAuth from "../hooks/useAuth";
 
 function HomePage() {
+  const { user } = useAuth();
+
   return (
     <div>
-      <h1>HomePage</h1>
+      <Profile profile={user} />
     </div>
   );
 }
